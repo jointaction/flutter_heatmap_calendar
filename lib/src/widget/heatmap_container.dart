@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_heatmap_calendar/src/util/optional_tooltip.dart';
 import '../data/heatmap_color.dart';
 
 class HeatMapContainer extends StatelessWidget {
@@ -11,10 +12,11 @@ class HeatMapContainer extends StatelessWidget {
   final Color? textColor;
   final EdgeInsets? margin;
   final bool? showText;
+  final int? dataValue;
   final Function(DateTime dateTime)? onClick;
 
   const HeatMapContainer({
-    Key? key,
+    super.key,
     required this.date,
     this.margin,
     this.size,
@@ -25,7 +27,8 @@ class HeatMapContainer extends StatelessWidget {
     this.textColor,
     this.onClick,
     this.showText,
-  }) : super(key: key);
+    this.dataValue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,37 +38,40 @@ class HeatMapContainer extends StatelessWidget {
         cursor: onClick != null
             ? SystemMouseCursors.click
             : SystemMouseCursors.basic,
-        child: GestureDetector(
-          child: Container(
-            decoration: BoxDecoration(
-              color: backgroundColor ?? HeatMapColor.defaultColor,
-              borderRadius:
-                  BorderRadius.all(Radius.circular(borderRadius ?? 5)),
-            ),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.easeInOutQuad,
-              width: size,
-              height: size,
-              alignment: Alignment.center,
+        child: OptionalTooltip(
+          message: dataValue?.toString(),
+          child: GestureDetector(
+            child: Container(
               decoration: BoxDecoration(
-                color: selectedColor,
+                color: backgroundColor ?? HeatMapColor.defaultColor,
                 borderRadius:
                     BorderRadius.all(Radius.circular(borderRadius ?? 5)),
               ),
-              child: (showText ?? true)
-                  ? Text(
-                      date.day.toString(),
-                      style: TextStyle(
-                          color: textColor ?? const Color(0xFF8A8A8A),
-                          fontSize: fontSize),
-                    )
-                  : null,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOutQuad,
+                width: size,
+                height: size,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: selectedColor,
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(borderRadius ?? 5)),
+                ),
+                child: (showText ?? true)
+                    ? Text(
+                        date.day.toString(),
+                        style: TextStyle(
+                            color: textColor ?? const Color(0xFF8A8A8A),
+                            fontSize: fontSize),
+                      )
+                    : null,
+              ),
             ),
+            onTap: () {
+              onClick != null ? onClick!(date) : null;
+            },
           ),
-          onTap: () {
-            onClick != null ? onClick!(date) : null;
-          },
         ),
       ),
     );

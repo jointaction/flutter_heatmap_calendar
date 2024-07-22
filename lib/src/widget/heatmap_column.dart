@@ -74,7 +74,7 @@ class HeatMapColumn extends StatelessWidget {
   final int numDays;
 
   HeatMapColumn({
-    Key? key,
+    super.key,
     required this.startDate,
     required this.endDate,
     required this.colorMode,
@@ -101,6 +101,9 @@ class HeatMapColumn extends StatelessWidget {
                     startDate.day - startDate.weekday % 7 + i)) ??
                 false;
 
+            final dataValue = datasets?[DateTime(startDate.year,
+                startDate.month, startDate.day - startDate.weekday % 7 + i)];
+
             return HeatMapContainer(
               date: DateUtil.changeDay(startDate, i),
               backgroundColor: defaultColor,
@@ -111,6 +114,7 @@ class HeatMapColumn extends StatelessWidget {
               margin: margin,
               onClick: hasData ? onClick : null,
               showText: showText,
+              dataValue: dataValue,
               // If datasets has DateTime key which is equal to this HeatMapContainer's date,
               // we have to color the matched HeatMapContainer.
               //
@@ -150,8 +154,7 @@ class HeatMapColumn extends StatelessWidget {
                     width: size ?? 42,
                     height: size ?? 42),
               )
-            : [],
-        super(key: key);
+            : [];
 
   @override
   Widget build(BuildContext context) {
