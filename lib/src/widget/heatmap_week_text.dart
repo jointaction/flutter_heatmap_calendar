@@ -15,19 +15,19 @@ class HeatMapWeekText extends StatelessWidget {
   final Color? fontColor;
 
   const HeatMapWeekText({
-    Key? key,
+    super.key,
     this.margin,
     this.fontSize,
     this.size,
     this.fontColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        for (String label in DateUtil.WEEK_LABEL)
+        for (String label in DateUtil.weekLabel)
           Container(
             height: size ?? 20,
             margin: margin ?? const EdgeInsets.all(2.0),

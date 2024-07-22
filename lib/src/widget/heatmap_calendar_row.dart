@@ -66,7 +66,7 @@ class HeatMapCalendarRow extends StatelessWidget {
   final Function(DateTime)? onClick;
 
   HeatMapCalendarRow({
-    Key? key,
+    super.key,
     required this.startDate,
     required this.endDate,
     required this.colorMode,
@@ -81,7 +81,7 @@ class HeatMapCalendarRow extends StatelessWidget {
     this.datasets,
     this.maxValue,
     this.onClick,
-  })  : dayContainers = List<Widget>.generate(
+  }) : dayContainers = List<Widget>.generate(
           7,
           // If current week has first day of the month and
           // the first day is not a sunday, it must have extra space on it.
@@ -150,8 +150,7 @@ class HeatMapCalendarRow extends StatelessWidget {
                                   startDate.day + i - (startDate.weekday % 7))])
                       : null,
                 ),
-        ),
-        super(key: key);
+        );
 
   @override
   Widget build(BuildContext context) {

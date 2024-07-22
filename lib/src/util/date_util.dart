@@ -1,7 +1,7 @@
 class DateUtil {
-  static const int DAYS_IN_WEEK = 7;
+  static const int daysInWeek = 7;
 
-  static const List<String> MONTH_LABEL = [
+  static const List<String> monthLabel = [
     '',
     'January',
     'February',
@@ -17,7 +17,7 @@ class DateUtil {
     'December',
   ];
 
-  static const List<String> SHORT_MONTH_LABEL = [
+  static const List<String> shortMonthLabel = [
     '',
     'Jan',
     'Feb',
@@ -33,7 +33,7 @@ class DateUtil {
     'Dec',
   ];
 
-  static const List<String> WEEK_LABEL = [
+  static const List<String> weekLabel = [
     '',
     'Sun',
     'Mon',
@@ -59,22 +59,22 @@ class DateUtil {
   /// Separate [referenceDate]'s month to List of every weeks.
   static List<Map<DateTime, DateTime>> separatedMonth(
       final DateTime referenceDate) {
-    DateTime _startDate = startDayOfMonth(referenceDate);
-    DateTime _endDate = DateTime(_startDate.year, _startDate.month,
-        _startDate.day + DAYS_IN_WEEK - _startDate.weekday % DAYS_IN_WEEK - 1);
-    DateTime _finalDate = endDayOfMonth(referenceDate);
-    List<Map<DateTime, DateTime>> _savedMonth = [];
+    DateTime startDate = startDayOfMonth(referenceDate);
+    DateTime endDate = DateTime(startDate.year, startDate.month,
+        startDate.day + daysInWeek - startDate.weekday % daysInWeek - 1);
+    DateTime finalDate = endDayOfMonth(referenceDate);
+    List<Map<DateTime, DateTime>> savedMonth = [];
 
-    while (_startDate.isBefore(_finalDate) || _startDate == _finalDate) {
-      _savedMonth.add({_startDate: _endDate});
-      _startDate = changeDay(_endDate, 1);
-      _endDate = changeDay(
-          _endDate,
-          endDayOfMonth(_endDate).day - _startDate.day >= DAYS_IN_WEEK
-              ? DAYS_IN_WEEK
-              : endDayOfMonth(_endDate).day - _startDate.day + 1);
+    while (startDate.isBefore(finalDate) || startDate == finalDate) {
+      savedMonth.add({startDate: endDate});
+      startDate = changeDay(endDate, 1);
+      endDate = changeDay(
+          endDate,
+          endDayOfMonth(endDate).day - startDate.day >= daysInWeek
+              ? daysInWeek
+              : endDayOfMonth(endDate).day - startDate.day + 1);
     }
-    return _savedMonth;
+    return savedMonth;
   }
 
   /// Change day of [referenceDate].
